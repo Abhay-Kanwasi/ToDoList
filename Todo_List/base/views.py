@@ -52,6 +52,14 @@ class TaskList(LoginRequiredMixin, ListView):   # LoginRequiredMixin will check 
         context = super().get_context_data(**kwargs) # context set to orignal value | get_context_data making sure we are inheriting from the orignal item
         context['tasks'] = context['tasks'].filter(user=self.request.user) # Filtering tasks according to user who created them
         context['count'] = context['tasks'].filter(complete=False).count()   # count of incomplete items
+        
+        search_input = self.request.GET.get('search-area') or '' # whatever user search it will get the value and default value is empty string('')
+        if search_input:
+            context['tasks'] = context['tasks'].filter(
+                title__icontains=search_input)
+        
+        context['search_input'] = search_input  # whatever user search it will add into template using as value
+
         return context
 
     template_name = 'base/tasks.html'
