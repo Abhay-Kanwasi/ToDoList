@@ -42,7 +42,6 @@ class Base_Register(FormView):
             return redirect('tasks')
         return super(Base_Register, self).get(*args, **kwargs)
 
-
 class TaskList(LoginRequiredMixin, ListView):   # LoginRequiredMixin will check login but redirect user to default not login page so we have to set it and Listview return a template with query set of data
     model = Task
     context_object_name = 'tasks'   #change the object list to tasks
@@ -59,9 +58,7 @@ class TaskList(LoginRequiredMixin, ListView):   # LoginRequiredMixin will check 
                 title__icontains=search_input)
         
         context['search_input'] = search_input  # whatever user search it will add into template using as value
-
         return context
-
     template_name = 'base/tasks.html'
 
 class TaskDetail(LoginRequiredMixin, DetailView):
